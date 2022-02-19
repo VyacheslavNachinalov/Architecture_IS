@@ -1,0 +1,9 @@
+@startuml
+:PC:-> (read data from the camera)
+:PC:-> (analysis)
+:analysis:-> (speed of clouds)
+:analysis:-> (time of covering)
+:PC:-> (sending data to the cloud)
+:Camera:-> (direct camera to sun)
+:Camera:-> (take a photo)
+@enduml

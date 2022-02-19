@@ -1,0 +1,7 @@
+@startuml
+Camera - PC : give a photo >
+PC - Camera : rotate >
+PC - Cloud : give a speed and time >
+PC - Engine : start/stop >
+Cloud - User : give a data
+@enduml
