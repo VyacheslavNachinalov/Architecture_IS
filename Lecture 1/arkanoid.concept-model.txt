@@ -1,0 +1,45 @@
+@startuml
+class Platform
+{
+    posX: double
+    speedX: double
+}
+
+class Ball
+{
+    posX: double
+    posY: double
+    speedX: double
+    speedY: double
+    alive: bool
+}
+
+class Brick
+{
+    posX: double
+    posY: double
+    alive: bool 
+}
+
+class "Ceiling and Walls"
+{
+   posX: double
+   posY: double
+   sizeX: double
+   sizeY: double
+}
+
+class Pit
+{
+   posX: double
+   posY: double
+   sizeX: double
+   sizeY: double
+}
+
+Platform - Ball : start >
+Ball - Platform : rebound >
+Ball --> "Ceiling and Walls" : rebound >
+Ball - Brick : rebound and break >
+Ball --> Pit : fail
+@enduml
