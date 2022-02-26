@@ -1,0 +1,7 @@
+@startuml
+actor User
+User -> System : start/stop
+User -> System : give a photo
+User -> System : give a speed and time
+User -> System : give a data
+@enduml
