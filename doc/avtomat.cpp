@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <string>
 
 using namespace std;
@@ -19,30 +19,12 @@ class Camera
 	Image picture;
 
 public:
-	void takePhoto()
+	Image takePhoto()
 	{
 
 	}
-};
+	Sun directToSun() {
 
-class PC
-{
-	Image pictures[300];
-	double speed;
-	double time;
-	bool genState;
-public:
-	void analysis()
-	{
-
-	}
-	void startGenerator()
-	{
-		genState = true;
-	}
-	void stopGenerator()
-	{
-		genState = false;
 	}
 };
 
@@ -50,8 +32,26 @@ class CloudService
 {
 	double speed;
 	double time;
+	void sendData()
+	{
+
+	}
 	void giveData()
 	{
+
+	}
+};
+class Generator
+{
+private:
+	double rmp;
+public:
+	Generator() {};
+	~Generator() {};
+	void Start() {
+
+	}
+	void Stop(){
 
 	}
 };
@@ -59,13 +59,15 @@ class CloudService
 enum Sstates { starting, Son, Soff, Eon, Eoff, automat, manual, error, recvdata, analysis, EXIT};
 
 class Systema {
-	int rpm;
-	
 	Sstates state;
+	Image pictures[300];
+	double speed;
+	double time;
+	bool genState;
+	bool workMode;
 public:
 	Systema() {
-		rpm = 0;
-		state = Soff;  //system off
+		state = Sstates::Soff;  //system off
 	}
 	~Systema() {}
 	void setState(Sstates s) {
@@ -94,7 +96,7 @@ public:
 			break;
 
 		case (Sstates::Eon):
-			if (state == analysis || state==manual)
+			if (state== Sstates::analysis || state==manual)
 			{
 				state = Eon;
 				cout << "SYSTEM::system Eon" << endl;
@@ -102,7 +104,7 @@ public:
 			break;
 
 		case (Sstates::Eoff):
-			if (state == analysis || state == manual)
+			if (state == Sstates::analysis || state == manual)
 			{
 				state = Eoff;
 				cout << "SYSTEM::system Eoff" << endl;
@@ -127,9 +129,21 @@ public:
 				break;
 
 		case (Sstates::analysis):
-					state = analysis;
+					state = Sstates::analysis;
 					break;
 		}
+
+	}
+
+	void Get_data() {
+		
+	}
+	void analysis()
+	{
+
+	}
+	void Generator()
+	{
 
 	}
 };
