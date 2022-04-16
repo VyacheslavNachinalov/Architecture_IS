@@ -8,6 +8,15 @@ class Sun
 class Power_generator
 {
     powerState: bool
+    rmp: double
+    start()
+    stop()
+}
+
+class image
+{
+    imx: double
+    imy: double
 }
 
 class Camera
@@ -16,12 +25,18 @@ class Camera
     takePhoto()
 }
 
-class PC
+class Systema
 {
+    state: statuses
     pictures[300]: image
+    speed double
+    time: double
+    genState: bool
+    WorkMode: bool
+    setState()
     analysis()
-    startGenerator()
-    stopGenerator()
+    Generator()
+    Get_data()
 }
 
 class CloudService
@@ -29,6 +44,7 @@ class CloudService
     speed: double
     time: double
     giveData()
+    sendData()
 }
 
 class User
@@ -37,10 +53,10 @@ class User
     Dtime: double
 }
 
-Photo - Camera : create 
-Camera - PC : transport a photo 
-PC - CloudService : give a speed and time 
-PC -- Power_generator: start/stop 
-CloudService -- User : give a data 
-Camera -- Sun : direct to sun 
+image -* Camera : create 
+Camera -> Systema : transport a photo 
+Systema <- CloudService : give a speed and time 
+Systema <|.. Power_generator: start/stop 
+CloudService <-- User : give a data 
+Camera <-- Sun : direct to sun
 @enduml
