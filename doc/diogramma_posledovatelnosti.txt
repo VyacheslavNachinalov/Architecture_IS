@@ -1,7 +1,10 @@
 @startuml
-actor User
-User -> System : start/stop
-User -> System : give a photo
-User -> System : give a speed and time
-User -> System : give a data
+User -> PC : System start
+User -> PC : Auto/Manual mode
+Camera -> PC: Give a picture
+PC -> PC: Analysis
+PC -> Engine: On/Off
+PC -> CloudService: give cloud speed & time of covering
+CloudService -> User : Give data
+User -> PC : System Off
 @enduml
