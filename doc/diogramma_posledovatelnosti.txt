@@ -1,10 +1,14 @@
 @startuml
-User -> PC : System start
-User -> PC : Auto/Manual mode
-Camera -> PC: Give a picture
-PC -> PC: Analysis
-PC -> Engine: On/Off
-PC -> CloudService: give cloud speed & time of covering
-CloudService -> User : Give data
-User -> PC : System Off
+actor User
+User -> Systema : System start()
+activate Systema
+User -> Systema : Auto/Manual mode()
+Systema -> Camera: takePhoto()
+Camera -> Systema: takenPicture
+Systema -> Systema: Analysis()
+Systema -> Engine: On/Off()
+Systema -> CloudService: send cloud speed & time of covering()
+CloudService -> User : Get data
+User -> Systema : System Off()
+deactivate Systema
 @enduml
