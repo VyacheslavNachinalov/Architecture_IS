@@ -53,10 +53,10 @@ class User
     Dtime: double
 }
 
-image -* Camera : create 
-Camera -> Systema : transport a photo 
-Systema <- CloudService : give a speed and time 
-Systema <|.. Power_generator: start/stop 
+image -> Camera : create 
+Camera -o Systema : transport a photo 
+Systema o- CloudService : give a speed and time 
+Systema o-- Power_generator: start/stop 
 CloudService <-- User : give a data 
-Camera <-- Sun : direct to sun
+Camera --> Sun : direct to sun
 @enduml
