@@ -1,11 +1,14 @@
-﻿#include <iostream>
+#include <iostream>
 #include <string>
+#include <fstream>
 
 using namespace std;
 
 struct Image {
-	double imx;
-	double imy;
+	int imx;
+	int imy;
+	int pic[10][10];
+
 };
 
 struct Sun
@@ -21,11 +24,30 @@ class Camera
 public:
 	Image takePhoto()
 	{
-
+		ifstream f;
+		f.open("photo1");
+		char* buf = new char[10];
+		for (int i = 0; i < 10; i++){
+			f.getline(buf, 10);
+			for (int j = 0; j < 10; j++) {
+				picture.pic[i][j] = buf[j];
+			}
+		}
+		delete buf;
+		return picture;
 	}
-	Sun directToSun() {
-
-	}
+/*	Sun directToSun() {
+		for (int i=0;i<10;i++)
+		{
+			for (int j=0;j<10;j++)
+			{
+				if (picture.pic[i][j] > 229) // platinum color in grey-scale or more white 
+				{
+					
+				}
+			}
+		}
+	}*/
 };
 
 class CloudService
@@ -36,23 +58,27 @@ class CloudService
 	{
 
 	}
-	void giveData()
+	void giveData(const Systema& syst)
 	{
-
+		this.speed = syst.speed;
+		this.time = syst.time; 
 	}
 };
 class Generator
 {
 private:
 	double rmp;
+	bool activity;
 public:
-	Generator() {};
-	~Generator() {};
+	Generator(Sstates state ) {};
+	~Generator() { rmp = 0; };
 	void Start() {
-
+		activity = true;
 	}
 	void Stop(){
-
+		rmp = 0;
+		activity = false;
+		state = Sstates::Eoff;
 	}
 };
 
@@ -60,11 +86,12 @@ enum Sstates { starting, Son, Soff, Eon, Eoff, automat, manual, error, recvdata,
 
 class Systema {
 	Sstates state;
-	Image pictures[300];
+	Image pictures[1];
 	double speed;
 	double time;
 	bool genState;
 	bool workMode;
+	Generator gen;
 public:
 	Systema() {
 		state = Sstates::Soff;  //system off
@@ -73,7 +100,6 @@ public:
 	void setState(Sstates s) {
 		switch (s)
 		{
-
 		case(Sstates::starting):
 			if (state == Son) {
 				state = starting;
@@ -87,9 +113,7 @@ public:
 				state = Son;
 				cout << "SYSTEM::system ON" << endl;
 			}
-			
 			break;
-
 		case (Sstates::Soff):
 			state = Soff;
 			cout << "SYSTEM::system OFF" << endl;
@@ -99,6 +123,7 @@ public:
 			if (state== Sstates::analysis || state==manual)
 			{
 				state = Eon;
+				gen.Start();
 				cout << "SYSTEM::system Eon" << endl;
 			}
 			break;
@@ -107,6 +132,7 @@ public:
 			if (state == Sstates::analysis || state == manual)
 			{
 				state = Eoff;
+				gen.Stop();
 				cout << "SYSTEM::system Eoff" << endl;
 			}
 			break;
@@ -138,13 +164,23 @@ public:
 	void Get_data() {
 		
 	}
-	void analysis()
+	bool analysis(Image im)
 	{
-
-	}
-	void Generator()
-	{
-
+		Sun sun;
+		sun.posX = -1;
+		sun.posY = -1;
+		for (int i = 0; i < 10; i++) {
+			for (int j = 0; j < 10; j++) {
+				if (pictures[1].pic[i][j] == 2) {
+					sun.posX = i;
+					sun.posY = j;
+				}
+			}
+		}
+		if (sun.posX == -1) {
+			return false;
+		}
+		return true;
 	}
 };
 
