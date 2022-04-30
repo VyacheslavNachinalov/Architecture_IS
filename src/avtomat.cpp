@@ -1,6 +1,10 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <unistd.h>
 
 using namespace std;
 
@@ -35,6 +39,10 @@ public:
 		}
 		delete buf;
 		return picture;
+	}
+	void sendPicture()
+	{
+		
 	}
 /*	Sun directToSun() {
 		for (int i=0;i<10;i++)
@@ -211,6 +219,128 @@ Sstates getEvent() {
 		return Sstates::EXIT;
 }
 
+class Client{
+	public:
+		virtual void connect()
+		{
+			
+		}
+		virtual void send (string msg)
+		{
+			
+		}
+		virtual void disconnect()
+		{
+
+		}		
+};
+
+class WinClient: public Client{
+	public:
+		virtual void connect()
+		{
+			
+		}
+
+		virtual void send (string msg)
+		{
+			
+		}
+		
+		virtual void disconnect()
+		{
+
+		}	
+};
+
+class LinuxClient: public Client{
+	private:
+		int sock;
+  		struct sockaddr_in addr;
+
+	public:
+		LinuxClient()
+		{
+			sock = socket(AF_INET, SOCK_DGRAM, 0);
+		}
+		virtual void connect()
+		{
+  			addr.sin_family = AF_INET;
+ 			addr.sin_port = htons(3425);
+  			addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
+		}
+		virtual void send (string msg)
+		{
+			char msg1[] = "MESSAGE1";
+			sendto(sock, msg1, sizeof(msg1), 0, (struct sockaddr *)&addr, sizeof(addr));
+		}
+
+		
+		~LinuxClient()
+		{
+			close(sock);
+		}	
+};
+
+class Server{
+	public:
+		virtual void connect()
+		{
+			
+		}
+		virtual void recive()
+		{
+			
+		}
+};
+
+class WinServer: public Server{
+	public:
+		virtual void connect()
+		{
+			
+		}
+		virtual void recive()
+		{
+			
+		}	
+};
+
+class LinuxServer: public Server{
+	private:
+		int sock;
+  		struct sockaddr_in addr;
+  		char buf[50];
+  		int bytes_read;
+
+		LinuxServer()
+		{
+			sock = socket(AF_INET, SOCK_DGRAM, 0);
+		}
+
+	public:
+		virtual void connect()
+		{
+			addr.sin_family = AF_INET;
+  			addr.sin_port = htons(3425);
+  			addr.sin_addr.s_addr = htonl(INADDR_ANY);
+  			if(bind(sock, (struct sockaddr *)&addr, sizeof(addr)) < 0) {
+    		perror("bind");
+    		return;
+			}	
+		}
+
+		virtual void recive()
+		{
+			while(1) {
+    		bytes_read = recvfrom(sock, buf, 50, 0, NULL, NULL);
+    		buf[bytes_read] = '\0';
+    		printf("%s\n", buf);
+  			}
+		}	
+};
+
+
 int main()
 {
 	Systema machine;
@@ -227,5 +357,4 @@ int main()
 		machine.setState(ev);
 		ev = getEvent(); 
 	}
-
 }
